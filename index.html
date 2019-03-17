@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Giphy</title>
+</head>
+
+<body>
+    
+  <div id="buttons">
+    <button data-thing="psych">
+    Psych
+    </button>
+    <button data-thing="the office">
+    The Office
+    </button>
+    <button data-thing="top gun">
+    Top Gun
+    </button>
+    <button data-thing="parks and rec">
+    Parks and Rec
+    </button>
+    <button data-thing="lord of the rings">
+    Lord of the Rings
+    </button>
+    <button data-thing="malcom in the middle">
+    Malcom in the Middle
+    </button>
+    <button data-thing="harry potter">
+    Harry Potter
+    </button>
+    <button data-thing="dredd">
+    Dredd
+    </button>
+    <button data-thing="game of thrones">
+    Game of Thrones
+    </button>
+    </br>
+    <div id="buttons-view"></div>
+    <form id="thing-form">
+        <label for="thing-input">Add Something</label>
+        <input type="text" id="thing-input"><br>
+  
+        <!-- Button triggers new movie to be added -->
+        <input id="add-thing" type="submit" value="Add Something">
+      </form>
+  </div>
+  
+  <div id="gifs-appear-here">
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+  
+var things = ["Psych" , "The Office" , "Top Gun" , "Parks and Rec" , "Lord of the Rings" , "Malcom in the Middle" , "Harry Potter" , "Dredd" , "Game of Thrones"];
+// var things = ["psych" , "the office" , "top gun" , "parks and rec" , "lord of the rings" , "malcom in the middle" , "harry potter" , "dredd" , "game of thrones"];
+  
+function renderButtons() {
+
+// Deleting the movie buttons prior to adding new movie buttons
+// (this is necessary otherwise we will have repeat buttons)
+$("#buttons-view").empty();
+
+// Looping through the array of movies
+for (var i = 0; i < things.length; i++) {
+
+  // Then dynamicaly generating buttons for each movie in the array.
+  // This code $("<button>") is all jQuery needs to create the start and end tag. (<button></button>)
+  var a = $("<button>");
+  // Adding a class
+  a.addClass("thing");
+  // Adding a data-attribute with a value of the movie at index i
+  a.attr("data-thing", things[i]);
+  // Providing the button's text with a value of the movie at index i
+  a.text(things[i]);
+  // Adding the button to the HTML
+  $("#buttons-view").append(a);
+}
+}
+
+// This function handles events where one button is clicked
+$("#add-thing").on("click", function(event) {
+// event.preventDefault() prevents the form from trying to submit itself.
+// We're using a form so that the user can hit enter instead of clicking the button if they want
+event.preventDefault();
+
+// This line will grab the text from the input box
+var thing = $("#thing-input").val().trim();
+// The movie from the textbox is then added to our array
+things.push(thing);
+
+// calling renderButtons which handles the processing of our movie array
+renderButtons();
+});
+
+// Calling the renderButtons function at least once to display the initial list of movies
+renderButtons();
+
+$("button").on("click", function() {
+  
+    var things = $(this).attr("data-thing");
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + things + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+    $.ajax({
+      url: queryURL,
+      method: "GET",
+      
+    })
+      .then(function(response) {
+        var results = response.data;
+        console.log(queryURL)
+        for (var i = 0; i < results.length; i++) {
+          var gifDiv = $("<div>");
+
+          var rating = results[i].rating;
+
+          var p = $("<p>").text("Rating: " + rating);
+
+          var thingImage = $("<img>");
+          thingImage.attr("src", results[i].images.fixed_height.url);
+            console.log(this)
+          gifDiv.prepend(p);
+          gifDiv.prepend(thingImage);
+
+          $("#gifs-appear-here").prepend(gifDiv);
+        }
+      });
+  });
+
+  $(".gif").on("click", function() {
+      // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+      var state = $(this).attr("data-state");
+      // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+      // Then, set the image's data-state to animate
+      // Else set src to the data-still value
+      if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+      } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+      }
+    });
+
+
+  // var things = ["psych" , "the office" , "top gun" , "parks and rec" , "lord of the rings" , "malcom in the middle" , "harry potter" , "dredd" , "game of thrones"];
+    
+  // $("button").on("click", function() {
+  //     var things = $(this).attr("data-thing");
+  //     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+  //     things + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+  //     $.ajax({
+  //       url: queryURL,
+  //       method: "GET"
+  //     })
+  //       .then(function(response) {
+  //         var results = response.data;
+
+  //         for (var i = 0; i < results.length; i++) {
+  //           var gifDiv = $("<div>");
+
+  //           var rating = results[i].rating;
+
+  //           var p = $("<p>").text("Rating: " + rating);
+
+  //           var thingImage = $("<img>");
+  //           thingImage.attr("src", results[i].images.fixed_height.url);
+
+  //           gifDiv.prepend(p);
+  //           gifDiv.prepend(thingImage);
+
+  //           $("#gifs-appear-here").prepend(gifDiv);
+  //         }
+  //       });
+  //   });
+
+
+  </script>
+</body>
+
+</html>
