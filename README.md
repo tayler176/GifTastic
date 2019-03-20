@@ -1,1 +1,2 @@
 # GifTastic
+This app was created to show a set list of movies and TV shows that I enjoy. There is also a search bar to add your own favorite shows movies and things to the list. Upon clicking on a button all previousloaded gifs will be cleared out and repleaced with gifs related to the button you clicked. gifs can also be paused with a double click(not sure how i did that), and started again with a single click.

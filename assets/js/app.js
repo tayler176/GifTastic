@@ -70,6 +70,7 @@ $("button").on("click", function() {
             thingImage.attr("src", defaultAnimatedSrc);
             //adds class of "thing" to the image tag
             thingImage.addClass("thing");
+            thingImage.addClass("btn btn-light")
             //
             thingImage.attr("data-state", "still");
             // puts the static image url into the data-still element will bes used lated to make images still on click

@@ -1,0 +1,31 @@
+.thing{
+    margin: 15px;
+    right: 200px;
+
+}
+
+.header{
+    height: 100px;
+    background: grey;
+    color: white;
+    text-align: center;
+    font-size: 40px;
+}
+
+#thing-input{
+    margin:10px;
+}
+
+body{
+    background-image: url("/Users/Taylor/bc/GifTastic/assets/images/ship.jpg");
+
+}
+
+.submit-button-text{
+    color:white;
+    padding-left:20px;
+}
+
+.submit-button{
+    margin-left:20px;
+}
